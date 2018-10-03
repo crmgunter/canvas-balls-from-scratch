@@ -10,7 +10,7 @@ function timer() {
   }, 1000);
 }
 
-const ballsArray = [];
+const ballSack = [];
 
 const colorArray = [
   "#65DEF1",
@@ -69,9 +69,9 @@ function Ball() {
       this.vy *= -this.bounceFactor;
       this.vx = -this.vx;
     }
-    // this is going to remove a ball from the ballsArray
+    // this is going to remove a ball from the ballSack
     if (this.y < 0) {
-      ballsArray.splice(ball, 1);
+      ballSack.splice(ball, 1);
     }
 
     this.up();
@@ -109,7 +109,7 @@ function Ball() {
 // start shit
 function init() {
   for (let i = 0; i < 100; i++) {
-    ballsArray.push(new Ball());
+    ballSack.push(new Ball());
   }
 }
 
@@ -137,14 +137,14 @@ window.addEventListener("resize", event => {
 function animate() {
   requestAnimationFrame(animate);
   c.clearRect(0, 0, canvas.width, canvas.height);
-  for (let i = 0; i < ballsArray.length; i++) {
-    ballsArray[i].draw();
-    ballsArray[i].update(i);
+  for (let i = 0; i < ballSack.length; i++) {
+    ballSack[i].draw();
+    ballSack[i].update(i);
   }
   c.font = "20px Georgia";
   c.fillStyle = "white";
   c.textAlign = "center";
-  if (ballsArray.length > 85) {
+  if (ballSack.length > 85) {
     c.fillText(
         "Push the dots to the top of the screen",
         canvas.width / 2,
@@ -152,7 +152,7 @@ function animate() {
       );
   }
 
-  if (ballsArray.length === 0) {
+  if (ballSack.length === 0) {
     c.fillText(
         `You wasted ${seconds} seconds playing this game.`,
         canvas.width / 2,
@@ -167,7 +167,7 @@ function animate() {
   }
 
   c.fillText(
-    `Dots left: ${ballsArray.length}     Time: ${seconds}s`,
+    `Dots left: ${ballSack.length}     Time: ${seconds}s`,
     canvas.width / 2,
     canvas.height / 2
   );
