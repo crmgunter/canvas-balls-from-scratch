@@ -100,7 +100,7 @@ function Ball() {
 }
 
 function init() {
-  for (let i = 0; i < 300; i++) {
+  for (let i = 0; i < 100; i++) {
     ballsArray.push(new Ball());
   }
 }
@@ -140,6 +140,14 @@ function animate() {
   c.font = "20px Georgia";
   c.fillStyle = "white";
   c.textAlign = "center";
+  if (ballsArray.length > 85) {
+    c.fillText(
+        "Push the dots to the top of the screen",
+        canvas.width / 2,
+        -50 + canvas.height / 2
+      );
+  }
+
   c.fillText(
     `Dots left: ${ballsArray.length}     Time: ${seconds}s`,
     canvas.width / 2,
