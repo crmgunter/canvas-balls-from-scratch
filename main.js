@@ -3,7 +3,7 @@ canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
 
 const ballsArray = [];
-const trashArry = []
+const trashArry = [];
 
 const colorArray = [
   "#65DEF1",
@@ -23,7 +23,6 @@ const colorArray = [
   "#D9E76C",
   "#E5D352"
 ];
-console.log(Math.floor(Math.random() * colorArray.length));
 let c = canvas.getContext("2d");
 
 let mouse = {
@@ -35,11 +34,10 @@ function Ball() {
   this.radius = 3 + Math.random() * 30;
   this.x = this.radius + Math.random() * (innerWidth - 2 * this.radius);
   this.y = this.radius + Math.random() * (innerHeight - 2 * this.radius);
-  //   this.y = Math.random() * innerHeight - this.radius;
   this.vx = 1;
   this.vy = 0;
   this.gravity = 0.5;
-  this.bounceFactor = 0.8;
+  this.bounceFactor = 0.9;
 
   this.color = colorArray[Math.floor(Math.random() * colorArray.length)];
 
@@ -65,12 +63,9 @@ function Ball() {
       this.vx = -this.vx;
     }
     // this is going to remove a ball from the ballsArray
-    if (this.y - this.radius < 0) {
-        console.log('this ball is out')
-        console.log(ball)
-        ballsArray.splice(ball, 1);
-        // console.log(ballsArray.length)
-      }
+    if (this.y < 0) {
+      ballsArray.splice(ball, 1);
+    }
 
     this.up();
   };
@@ -85,19 +80,19 @@ function Ball() {
       this.gravity = -2;
       this.bounceFactor = 0.4;
       if (mouse.x > this.x) {
-        this.vx = -4;
+        this.vx = -2.5;
         if (this.x - this.radius < 0) {
           this.vx = 20;
         }
       } else {
-        this.vx = 4;
+        this.vx = 2.5;
         if (this.x + this.radius > canvas.width) {
-            this.vx = -20
+          this.vx = -20;
         }
       }
     } else {
       this.gravity = 0.5;
-      this.bounceFactor = 0.8;
+      this.bounceFactor = 0.9;
     }
   };
 
@@ -105,9 +100,8 @@ function Ball() {
 }
 
 function init() {
-  for (let i = 0; i <= 100; i++) {
+  for (let i = 0; i < 300; i++) {
     ballsArray.push(new Ball());
-    console.log(ballsArray.length)
   }
 }
 
@@ -119,12 +113,22 @@ window.addEventListener("mousemove", event => {
 window.addEventListener("mouseout", event => {
   mouse.x = undefined;
   mouse.y = undefined;
-  console.log("im out");
 });
 
 window.addEventListener("resize", event => {
-  init();
+  canvas.height = window.innerHeight;
+  canvas.width = window.innerWidth;
 });
+
+let seconds = 0;
+
+function timer() {
+  setInterval(() => {
+    seconds++;
+  }, 1000);
+}
+
+timer();
 
 function animate() {
   requestAnimationFrame(animate);
@@ -133,6 +137,14 @@ function animate() {
     ballsArray[i].draw();
     ballsArray[i].update(i);
   }
+  c.font = "20px Georgia";
+  c.fillStyle = "white";
+  c.textAlign = "center";
+  c.fillText(
+    `Dots left: ${ballsArray.length}     Time: ${seconds}s`,
+    canvas.width / 2,
+    canvas.height / 2
+  );
 }
 
 init();
