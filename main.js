@@ -67,11 +67,16 @@ function Ball() {
   };
 
   this.up = function() {
-    if (mouse.x - this.x < 50 && mouse.x - this.x > -50) {
-        this.gravity = -.08;
+    if (mouse.x - this.x < 50 && mouse.x - this.x > -50 && mouse.y - this.y < 50 && mouse.y - this.y > -50) {
+        this.gravity = -2;
         this.bounceFactor = .4
-
-    } else {
+        if (mouse.x > this.x) {
+            this.vx = -4
+        } else {
+            this.vx = 4
+        }
+    } 
+    else {
         this.gravity = .5
         this.bounceFactor = .8
     }
@@ -82,13 +87,19 @@ function Ball() {
 
 const ball = new Ball();
 
-for (let i = 0; i <= 0; i++) {
+for (let i = 0; i <= 300; i++) {
   ballsArray.push(new Ball());
 }
 
 window.addEventListener('mousemove', (event) => {
     mouse.x = event.x
     mouse.y = event.y
+})
+
+window.addEventListener('mouseout', (event) => {
+    mouse.x = undefined
+    mouse.y = undefined
+    console.log('im out')
 })
 
 function animate() {
