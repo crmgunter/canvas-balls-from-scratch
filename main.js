@@ -23,48 +23,73 @@ const colorArray = [
 ];
 console.log(Math.floor(Math.random() * colorArray.length));
 let c = canvas.getContext("2d");
-let gravity = 0.5;
-let bounceFactor = 0.8;
+
+
+let mouse = {
+    x: undefined,
+    y: undefined
+}
 
 function Ball() {
   this.radius = 3 + Math.random() * 30;
   this.x = this.radius + Math.random() * (innerWidth - 2 * this.radius);
   this.y = Math.random() * innerHeight - this.radius;
-  this.vx = -1;
+  this.vx = 1;
   this.vy = 0;
+  this.gravity = .5;
+  this.bounceFactor = .8
+  
   this.color = colorArray[Math.floor(Math.random() * colorArray.length)];
 
   this.draw = function() {
     c.beginPath();
     c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-    c.fillStyle = this.color;
+    c.fillStyle = this.color
     c.fill();
   };
 
   this.update = function() {
-    this.vy += gravity;
+    this.vy += this.gravity;
 
     this.x += this.vx;
     this.y += this.vy;
 
     if (this.y + this.radius > canvas.height) {
-      this.vy *= -bounceFactor;
+      this.vy *= -this.bounceFactor;
       this.y = canvas.height - this.radius;
+      
     }
     if (this.x + this.radius > canvas.width || this.x - this.radius < 0) {
-      this.vy *= -bounceFactor;
+      this.vy *= -this.bounceFactor;
       this.vx = -this.vx;
     }
+    this.up()
   };
+
+  this.up = function() {
+    if (mouse.x - this.x < 50 && mouse.x - this.x > -50) {
+        this.gravity = -.08;
+        this.bounceFactor = .4
+
+    } else {
+        this.gravity = .5
+        this.bounceFactor = .8
+    }
+  }
 
   this.draw();
 }
 
 const ball = new Ball();
 
-for (let i = 0; i <= 100; i++) {
+for (let i = 0; i <= 0; i++) {
   ballsArray.push(new Ball());
 }
+
+window.addEventListener('mousemove', (event) => {
+    mouse.x = event.x
+    mouse.y = event.y
+})
 
 function animate() {
   requestAnimationFrame(animate);
