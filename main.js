@@ -148,6 +148,20 @@ function animate() {
       );
   }
 
+  if (ballsArray.length === 0) {
+    c.fillText(
+        `You wasted ${seconds} seconds playing this game.`,
+        canvas.width / 2,
+        -100 + canvas.height / 2
+      );
+
+      c.fillText(
+        ` They're still ticking. Go do something.`,
+        canvas.width / 2,
+        -75 + canvas.height / 2
+      );
+  }
+
   c.fillText(
     `Dots left: ${ballsArray.length}     Time: ${seconds}s`,
     canvas.width / 2,
