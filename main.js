@@ -2,8 +2,15 @@ let canvas = document.querySelector("canvas");
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
 
+let seconds = 0;
+
+function timer() {
+  setInterval(() => {
+    seconds++;
+  }, 1000);
+}
+
 const ballsArray = [];
-const trashArry = [];
 
 const colorArray = [
   "#65DEF1",
@@ -69,7 +76,7 @@ function Ball() {
 
     this.up();
   };
-
+  //mouseover functionality happens here. badaboom badabing
   this.up = function() {
     if (
       mouse.x - this.x < 50 &&
@@ -99,12 +106,14 @@ function Ball() {
   this.draw();
 }
 
+// start shit
 function init() {
   for (let i = 0; i < 100; i++) {
     ballsArray.push(new Ball());
   }
 }
 
+// event stuff
 window.addEventListener("mousemove", event => {
   mouse.x = event.x;
   mouse.y = event.y;
@@ -120,15 +129,10 @@ window.addEventListener("resize", event => {
   canvas.width = window.innerWidth;
 });
 
-let seconds = 0;
-
-function timer() {
-  setInterval(() => {
-    seconds++;
-  }, 1000);
-}
-
-timer();
+// yes i know everything in this function sucks
+// yes i know there is a better way to fill text in this canvas
+// it's late af and i don't have time to make this look nice right now
+// i will make this look better tomorrow or maybe 6 months from now if i feel like it
 
 function animate() {
   requestAnimationFrame(animate);
@@ -169,5 +173,7 @@ function animate() {
   );
 }
 
+
 init();
 animate();
+timer();
