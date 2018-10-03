@@ -80,12 +80,12 @@ function Ball() {
       this.gravity = -2;
       this.bounceFactor = 0.4;
       if (mouse.x > this.x) {
-        this.vx = -2.5;
+        this.vx = -3;
         if (this.x - this.radius < 0) {
           this.vx = 20;
         }
       } else {
-        this.vx = 2.5;
+        this.vx = 3;
         if (this.x + this.radius > canvas.width) {
           this.vx = -20;
         }
