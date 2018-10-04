@@ -10,7 +10,7 @@ function timer() {
   }, 1000);
 }
 
-let ballSack = [];
+let ballArray = [];
 
 const colorArray = [
   "#65DEF1",
@@ -37,25 +37,26 @@ let mouse = {
   y: undefined
 };
 
-function Ball() {
-  this.radius = 3 + Math.random() * 30;
-  this.x = this.radius + Math.random() * (innerWidth - 2 * this.radius);
-  this.y = this.radius + Math.random() * (innerHeight - 2 * this.radius);
-  this.vx = 1;
-  this.vy = 0;
-  this.gravity = 0.5;
-  this.bounceFactor = 0.9;
-
-  this.color = colorArray[Math.floor(Math.random() * colorArray.length)];
-
-  this.draw = function() {
+class Ball {
+  constructor(x, y, vx, vy, radius, gravity, bounceFactor, color){
+  this.radius = radius
+  this.x = x
+  this.y = y
+  this.vx = vx
+  this.vy = vy
+  this.gravity = gravity
+  this.bounceFactor = bounceFactor
+  this.color = color
+  
+  }
+  draw() {
     c.beginPath();
     c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
     c.fillStyle = this.color;
     c.fill();
-  };
+  }
 
-  this.update = function(ball) {
+  update(ball) {
     this.vy += this.gravity;
 
     this.x += this.vx;
@@ -69,15 +70,15 @@ function Ball() {
       this.vy *= -this.bounceFactor;
       this.vx = -this.vx;
     }
-    // this is going to remove a ball from the ballSack
+    // this is going to remove a ball from the ballArray
     if (this.y < 0) {
-      ballSack.splice(ball, 1);
+      ballArray.splice(ball, 1);
     }
 
     this.up();
-  };
+  }
   //mouseover functionality happens here. badaboom badabing
-  this.up = function() {
+  up() {
     if (
       mouse.x - this.x < 50 &&
       mouse.x - this.x > -50 &&
@@ -103,13 +104,24 @@ function Ball() {
     }
   };
 
-  this.draw();
+  
 }
 
-// start shit
+
+// start stuff
 function init() {
   for (let i = 0; i < 100; i++) {
-    ballSack.push(new Ball());
+    let radius = 3 + Math.random() * 30;
+    let x = radius + Math.random() * (innerWidth - 2 * radius);
+    let y = radius + Math.random() * (innerHeight - 2 * radius);
+    let vx = 1;
+    let vy = 0;
+    let gravity = 0.5;
+    let bounceFactor = 0.9;
+    let color = colorArray[Math.floor(Math.random() * colorArray.length)];
+    const ball = new Ball(x, y, vx, vy, radius, gravity, bounceFactor, color)
+    ball.draw()
+    ballArray.push(ball);
   }
 }
 
@@ -137,14 +149,14 @@ window.addEventListener("resize", event => {
 function animate() {
   requestAnimationFrame(animate);
   c.clearRect(0, 0, canvas.width, canvas.height);
-  for (let i = 0; i < ballSack.length; i++) {
-    ballSack[i].draw();
-    ballSack[i].update(i);
+  for (let i = 0; i < ballArray.length; i++) {
+    ballArray[i].draw();
+    ballArray[i].update(i);
   }
   c.font = "20px Georgia";
   c.fillStyle = "white";
   c.textAlign = "center";
-  if (ballSack.length > 85) {
+  if (ballArray.length > 85) {
     c.fillText(
         "Push the dots to the top of the screen",
         canvas.width / 2,
@@ -152,7 +164,7 @@ function animate() {
       );
   }
 
-  if (ballSack.length === 0) {
+  if (ballArray.length === 0) {
     c.fillText(
         `You wasted ${seconds} seconds playing this game.`,
         canvas.width / 2,
@@ -167,7 +179,7 @@ function animate() {
   }
 
   c.fillText(
-    `Dots left: ${ballSack.length}     Time: ${seconds}s`,
+    `Dots left: ${ballArray.length}     Time: ${seconds}s`,
     canvas.width / 2,
     canvas.height / 2
   );
