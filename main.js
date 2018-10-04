@@ -10,7 +10,7 @@ function timer() {
   }, 1000);
 }
 
-const ballSack = [];
+let ballSack = [];
 
 const colorArray = [
   "#65DEF1",
