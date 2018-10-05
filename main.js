@@ -30,6 +30,7 @@ const colorArray = [
   "#D9E76C",
   "#E5D352"
 ];
+
 let c = canvas.getContext("2d");
 
 let mouse = {
@@ -38,16 +39,15 @@ let mouse = {
 };
 
 class Ball {
-  constructor(x, y, vx, vy, radius, gravity, bounceFactor, color){
-  this.radius = radius
-  this.x = x
-  this.y = y
-  this.vx = vx
-  this.vy = vy
-  this.gravity = gravity
-  this.bounceFactor = bounceFactor
-  this.color = color
-  
+  constructor(x, y, vx, vy, radius, gravity, bounceFactor, color) {
+    this.radius = radius;
+    this.x = x;
+    this.y = y;
+    this.vx = vx;
+    this.vy = vy;
+    this.gravity = gravity;
+    this.bounceFactor = bounceFactor;
+    this.color = color;
   }
   draw() {
     c.beginPath();
@@ -102,11 +102,8 @@ class Ball {
       this.gravity = 0.5;
       this.bounceFactor = 0.9;
     }
-  };
-
-  
+  }
 }
-
 
 // start stuff
 function init() {
@@ -119,8 +116,8 @@ function init() {
     let gravity = 0.5;
     let bounceFactor = 0.9;
     let color = colorArray[Math.floor(Math.random() * colorArray.length)];
-    const ball = new Ball(x, y, vx, vy, radius, gravity, bounceFactor, color)
-    ball.draw()
+    const ball = new Ball(x, y, vx, vy, radius, gravity, bounceFactor, color);
+    ball.draw();
     ballArray.push(ball);
   }
 }
@@ -130,6 +127,11 @@ window.addEventListener("mousemove", event => {
   mouse.x = event.x;
   mouse.y = event.y;
 });
+
+window.addEventListener('click', event => {
+  mouse.x = event.x
+  mouse.y = event.y
+})
 
 window.addEventListener("mouseout", event => {
   mouse.x = undefined;
@@ -158,24 +160,24 @@ function animate() {
   c.textAlign = "center";
   if (ballArray.length > 85) {
     c.fillText(
-        "Push the dots to the top of the screen",
-        canvas.width / 2,
-        -50 + canvas.height / 2
-      );
+      "Push the dots to the top of the screen",
+      canvas.width / 2,
+      -50 + canvas.height / 2
+    );
   }
 
   if (ballArray.length === 0) {
     c.fillText(
-        `You wasted ${seconds} seconds playing this game.`,
-        canvas.width / 2,
-        -100 + canvas.height / 2
-      );
+      `You wasted ${seconds} seconds playing this game.`,
+      canvas.width / 2,
+      -100 + canvas.height / 2
+    );
 
-      c.fillText(
-        ` They're still ticking. Go do something.`,
-        canvas.width / 2,
-        -75 + canvas.height / 2
-      );
+    c.fillText(
+      ` They're still ticking. Go do something.`,
+      canvas.width / 2,
+      -75 + canvas.height / 2
+    );
   }
 
   c.fillText(
@@ -184,7 +186,6 @@ function animate() {
     canvas.height / 2
   );
 }
-
 
 init();
 animate();
