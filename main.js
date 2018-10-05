@@ -123,7 +123,7 @@ function init() {
 }
 
 // event stuff
-window.addEventListener("mousemove", event => {
+window.addEventListener("touchmove", event => {
   mouse.x = event.x;
   mouse.y = event.y;
 });
